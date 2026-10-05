@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HyperOS VN SVip - Bộ Công Cụ Tối Ưu Hóa</title>
+  <meta name="description" content="Tối ưu hóa Xiaomi HyperOS ROM Trung Quốc: Việt hóa, fix FCM, Gemini AI, debloat, tăng hiệu năng">
+  <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <link rel="stylesheet" href="/static/style.css?v=5">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar">
+    <div class="sb-brand">
+      <div class="sb-logo"><i data-lucide="zap"></i></div>
+      <div class="sb-brand-text">
+        <span class="sb-name">HYPER<span class="accent">OS</span> <span class="region">VN</span></span>
+        <span class="sb-badge">SVIP</span>
+      </div>
+    </div>
+
+    <nav class="sb-nav" id="sidebarNav">
+      <a class="sb-item active" data-page="dashboard"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+      <div class="sb-label">CÔNG CỤ</div>
+      <a class="sb-item" data-page="viethoa"><i data-lucide="languages"></i><span>Việt Hóa</span></a>
+      <a class="sb-item" data-page="fcm"><i data-lucide="bell-ring"></i><span>FCM Fix</span></a>
+      <a class="sb-item" data-page="gemini"><i data-lucide="sparkles"></i><span>Gemini AI</span></a>
+      <a class="sb-item" data-page="debloat"><i data-lucide="trash-2"></i><span>Gỡ Bloatware</span></a>
+      <a class="sb-item" data-page="performance"><i data-lucide="gauge"></i><span>Performance</span></a>
+      <a class="sb-item" data-page="lockusb"><i data-lucide="shield-check"></i><span>Khóa USB &amp; Bảo Mật</span></a>
+      <a class="sb-item" data-page="romfastboot"><i data-lucide="layers"></i><span>ROM Gốc &amp; Khóa BL</span></a>
+      <div class="sb-divider"></div>
+      <a class="sb-item sb-cta" data-page="runall"><i data-lucide="rocket"></i><span>Chạy Tất Cả</span></a>
+    </nav>
+
+    <div class="sb-footer">
+      <button class="sb-item sb-disc" id="btnDisclaimer"><i data-lucide="shield-alert"></i><span>Miễn trừ trách nhiệm</span></button>
+      <div class="sb-conn" id="sbConn">
+        <span class="sb-dot"></span>
+        <span id="sbConnText">Chưa kết nối</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="main">
+
+    <!-- ===== DASHBOARD ===== -->
+    <section class="page active" data-page="dashboard">
+
+      <div id="securityWarningBanner" class="alert-bar" style="display:none;">
+        <div class="alert-ico"><i data-lucide="shield-alert"></i></div>
+        <div class="alert-body">
+          <strong>BẮT BUỘC: Bật "Gỡ lỗi USB (Cài đặt bảo mật)"</strong>
+          <p id="warnMessage">Vào: Cài đặt bổ sung → Tùy chọn nhà phát triển → Bật "Gỡ lỗi USB (Cài đặt bảo mật)"</p>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="hero-phone">
+          <div class="phone-frame">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <div class="scr-top"><span id="scrClock">10:50</span><div class="scr-chips"><span class="sc-fcm" id="scrFcm">● FCM</span><span class="sc-gem" id="scrGem">✦ GEM</span></div></div>
+              <div class="scr-core"><div class="core-ring"><i data-lucide="cpu"></i></div><span class="core-label">HYPER CORE</span></div>
+              <div class="scr-bot"><span id="scrBatt">--%</span><i data-lucide="battery-charging" class="scr-batt-ico"></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-info">
+          <div class="hero-row"><span class="hero-label">THIẾT BỊ KẾT NỐI</span><span class="hero-live" id="liveTag">LIVE TELEMETRY</span></div>
+          <h1 class="hero-name" id="deviceName">Chưa phát hiện thiết bị</h1>
+          <div class="stats-row">
+            <div class="stat-chip"><span class="stat-l">HỆ ĐIỀU HÀNH</span><span class="stat-v" id="statOs">HyperOS --</span></div>
+            <div class="stat-chip"><span class="stat-l">ANDROID</span><span class="stat-v" id="statAndroid">Android --</span></div>
+            <div class="stat-chip"><span class="stat-l">PIN</span><span class="stat-v" id="statBattery">--%</span></div>
+            <div class="stat-chip"><span class="stat-l">BẢO MẬT ADB</span><span class="stat-v" id="statSecurity">--</span></div>
+          </div>
+        </div>
+        <div class="hero-acts">
+          <button id="btnRescan" class="btn-g"><i data-lucide="refresh-cw" id="iconRescan"></i><span>Quét lại</span></button>
+          <button id="btnQuickFcm" class="btn-g" disabled><i data-lucide="activity"></i><span>FCM Diag</span></button>
+          <button id="btnQuickReboot" class="btn-g" disabled><i data-lucide="rotate-ccw"></i><span>Reboot</span></button>
+          <button id="btnLockUsb" class="btn-g btn-danger" disabled title="Khóa lại Cài đặt nhà phát triển & tắt USB Debugging"><i data-lucide="lock"></i><span>Khóa USB Debug</span></button>
+        </div>
+      </div>
+
+      <h2 class="sec-title"><i data-lucide="heart-pulse"></i>Trạng Thái Hệ Thống</h2>
+      <div class="health-grid">
+        <div class="h-card" id="hcUsb"><div class="h-ico"><i data-lucide="usb"></i></div><div class="h-body"><span class="h-name">USB Debug</span><span class="h-val" id="hUsb">Đang kiểm tra...</span></div><span class="h-dot" id="hdUsb"></span></div>
+        <div class="h-card" id="hcSec"><div class="h-ico"><i data-lucide="shield-check"></i></div><div class="h-body"><span class="h-name">Security Debug</span><span class="h-val" id="hSec">Đang kiểm tra...</span></div><span class="h-dot" id="hdSec"></span></div>
+        <div class="h-card" id="hcFcm"><div class="h-ico"><i data-lucide="bell-ring"></i></div><div class="h-body"><span class="h-name">FCM Ready</span><span class="h-val" id="hFcm">Đang kiểm tra...</span></div><span class="h-dot" id="hdFcm"></span></div>
+        <div class="h-card" id="hcGem"><div class="h-ico"><i data-lucide="sparkles"></i></div><div class="h-body"><span class="h-name">Gemini AI</span><span class="h-val" id="hGem">Đang kiểm tra...</span></div><span class="h-dot" id="hdGem"></span></div>
+        <div class="h-card" id="hcJoy"><div class="h-ico"><i data-lucide="gamepad-2"></i></div><div class="h-body"><span class="h-name">Joyose</span><span class="h-val" id="hJoy">Đang kiểm tra...</span></div><span class="h-dot" id="hdJoy"></span></div>
+        <div class="h-card" id="hcMlc"><div class="h-ico"><i data-lucide="globe"></i></div><div class="h-body"><span class="h-name">MoreLocale</span><span class="h-val" id="hMlc">Đang kiểm tra...</span></div><span class="h-dot" id="hdMlc"></span></div>
+      </div>
+
+      <!-- Security / Lock USB Banner -->
+      <div class="security-lock-card">
+        <div class="sl-left">
+          <div class="sl-icon"><i data-lucide="shield-check"></i></div>
+          <div class="sl-info">
+            <h3>Bảo Vệ Thiết Bị &amp; Khóa Lại USB Debug</h3>
+            <p>Sau khi tối ưu xong, hãy khóa chế độ nhà phát triển để vào <strong>App Ngân hàng, Ví điện tử, VNeID</strong> mượt mà không bị cảnh báo bảo mật.</p>
+          </div>
+        </div>
+        <button id="btnLockUsbBanner" class="btn-lock-action" disabled>
+          <i data-lucide="lock"></i>
+          <span>Khóa USB Debug Ngay</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== VIỆT HÓA ===== -->
+    <section class="page" data-page="viethoa">
+      <div class="pg-head"><span class="pg-badge bg-cyan"><i data-lucide="languages"></i> ĐA NGÔN NGỮ</span><h1>Việt Hóa Ứng Dụng</h1><p>Kích hoạt Tiếng Việt cho toàn bộ App tải về từ CH Play</p></div>
+      <div class="mod-card">
+        <div class="feat-list">
+          <div class="feat"><i data-lucide="check-circle"></i><div><strong>Cấp quyền CHANGE_CONFIGURATION</strong><span>Cài đặt MoreLocale 2 và gán đặc quyền hệ thống đổi vùng.</span></div></div>
+          <div class="feat"><i data-lucide="check-circle"></i><div><strong>100% App Tự Động Nhận Tiếng Việt</strong><span>Zalo, Facebook, TikTok, Ngân hàng, Maps, Chrome chuyển sang tiếng Việt.</span></div></div>
+          <div class="feat"><i data-lucide="check-circle"></i><div><strong>Thiết lập biến vùng vi-VN</strong><span>Chuẩn hóa định dạng ngày, giờ, bàn phím và hộp thoại Android.</span></div></div>
+        </div>
+      </div>
+      <div class="mod-foot"><button class="btn-run" data-module="viethoa" disabled><i data-lucide="play"></i><span>Thực Thi Việt Hóa</span></button></div>
+    </section>
+
+    <!-- ===== FCM FIX ===== -->
+    <section class="page" data-page="fcm">
+      <div class="pg-head"><span class="pg-badge bg-amber"><i data-lucide="bell-ring"></i> THÔNG BÁO THỜI GIAN THỰC</span><h1>Duy Trì Kết Nối Google FCM</h1><p>Khắc phục hoàn toàn lỗi trễ/dồn thông báo Bank, Zalo, Messenger trên ROM Trung Quốc</p></div>
+      <div class="mod-card">
+        <div class="flow-row"><span class="flow-pill"><i data-lucide="check"></i> Doze Whitelist</span><span class="flow-arr">➔</span><span class="flow-pill"><i data-lucide="check"></i> Millet No-Restrict</span><span class="flow-arr">➔</span><span class="flow-pill"><i data-lucide="check"></i> AppOps Unlimited</span></div>
+        <div class="sub-box">
+          <label class="opt-row"><input type="checkbox" id="swShizuku" checked><span class="cb"></span><div><strong>Tự động kích hoạt Shizuku Server qua ADB</strong><span>Đẩy binary <code>shizuku_starter</code> trực tiếp, kích hoạt dịch vụ chạy ngầm.</span></div></label>
+          <label class="opt-row"><input type="checkbox" id="swFcmFix" checked><span class="cb"></span><div><strong>Cài đặt HyperOS FCM Fix</strong><span>Bảo vệ socket TCP của Google Play Services khỏi cơ chế đóng băng Xiaomi.</span></div></label>
+        </div>
+      </div>
+      <div class="mod-foot"><button class="btn-run" data-module="fcm" disabled><i data-lucide="play"></i><span>Thực Thi FCM Fix</span></button></div>
+    </section>
+
+    <!-- ===== GEMINI AI ===== -->
+    <section class="page" data-page="gemini">
+      <div class="pg-head"><span class="pg-badge bg-purple"><i data-lucide="sparkles"></i> GOOGLE GEMINI AI</span><h1>Thay Thế Xiao AI Bằng Gemini</h1><p>Thiết lập Google Gemini làm trợ lý mặc định, gán phím Nguồn &amp; tắt sạch Xiao AI</p></div>
+      <div class="mod-card">
+        <div class="flow-row"><span class="flow-pill"><i data-lucide="shield-off"></i> Tắt Xiao AI</span><span class="flow-arr">➔</span><span class="flow-pill flow-gem"><i data-lucide="sparkles"></i> Mặc Định Gemini</span><span class="flow-arr">➔</span><span class="flow-pill"><i data-lucide="power"></i> Giữ Nguồn 0.5s</span></div>
+        <div class="sub-box">
+          <label class="opt-row"><input type="checkbox" id="swDisableXiaoAi" checked><span class="cb"></span><div><strong>Vô hiệu hóa triệt để Xiao AI (Mi AI)</strong><span>Vô hiệu hóa <code>com.miui.voiceassist</code>, <code>com.miui.voicetrigger</code> và bộ xử lý giọng nói.</span></div></label>
+          <label class="opt-row"><input type="checkbox" id="swGeminiPowerKey" checked><span class="cb"></span><div><strong>Gán nút Nguồn (giữ 0.5s) &amp; Cử chỉ vuốt góc</strong><span>Mở nhanh Gemini bằng phần cứng (Nguồn + Tăng âm lượng = Menu Tắt máy).</span></div></label>
+        </div>
+        <div class="gem-acts">
+          <button id="btnTestGemini" class="btn-gem" disabled><i data-lucide="zap"></i><span>Test gọi Gemini</span></button>
+          <button id="btnGeminiPlayStore" class="btn-gem" disabled><i data-lucide="download"></i><span>Mở CH Play tải Gemini</span></button>
+        </div>
+      </div>
+      <div class="mod-foot"><button class="btn-run" data-module="gemini" disabled><i data-lucide="play"></i><span>Thực Thi Gemini AI</span></button></div>
+    </section>
+
+    <!-- ===== DEBLOAT ===== -->
+    <section class="page" data-page="debloat">
+      <div class="pg-head"><span class="pg-badge bg-rose"><i data-lucide="trash-2"></i> TỐI ƯU BỘ NHỚ</span><h1>Gỡ Bỏ Bloatware Nội Địa</h1><p>Dọn sạch các ứng dụng rác, dịch vụ quảng cáo và trang vàng Trung Quốc</p></div>
+      <div class="mod-card">
+        <div class="deb-row"><div class="deb-count" id="debloatSelectedCount"><i data-lucide="package-check"></i> Đang chọn <strong>12</strong> ứng dụng an toàn</div><button id="btnOpenDebloatModal" class="btn-sm"><i data-lucide="sliders-horizontal"></i><span>Tùy chỉnh danh sách</span></button></div>
+        <div class="chip-row"><span class="chip">Mi Video TQ</span><span class="chip">Mi Music TQ</span><span class="chip">GetApps Mall</span><span class="chip">Bàn phím Sogou</span><span class="chip">Bàn phím Baidu</span><span class="chip">YellowPage TQ</span><span class="chip">Quick Apps</span></div>
+      </div>
+      <div class="mod-foot"><button class="btn-run" data-module="debloat" disabled><i data-lucide="play"></i><span>Thực Thi Gỡ Bloatware</span></button></div>
+    </section>
+
+    <!-- ===== PERFORMANCE ===== -->
+    <section class="page" data-page="performance">
+      <div class="pg-head"><span class="pg-badge bg-emerald"><i data-lucide="gauge"></i> HIỆU NĂNG HỆ THỐNG</span><h1>Tối Ưu Hiệu Năng</h1><p>Tắt RAM ảo, vô hiệu Joyose, biên dịch ART và dọn bộ nhớ flash</p></div>
+      <div class="mod-card">
+        <div class="sub-box">
+          <label class="opt-row"><input type="checkbox" id="swRamExpand" checked><span class="cb"></span><div><strong>Tắt RAM Extension (RAM ảo)</strong><span>Ngừng swap ảo, giảm giật lag khi chạy nhiều app cùng lúc.</span></div></label>
+          <label class="opt-row"><input type="checkbox" id="swJoyose" checked><span class="cb"></span><div><strong>Vô hiệu hóa Joyose</strong><span>Chặn throttle hiệu năng, dimming màn hình tự động của Xiaomi.</span></div></label>
+          <label class="opt-row"><input type="checkbox" id="swArt" checked><span class="cb"></span><div><strong>Biên dịch ART (speed-profile)</strong><span>Tối ưu hóa bytecode ứng dụng, app mở nhanh hơn đáng kể.</span></div></label>
+          <label class="opt-row"><input type="checkbox" id="swFstrim" checked><span class="cb"></span><div><strong>Chạy fstrim (bảo trì flash)</strong><span>Dọn block rác trên bộ nhớ, cải thiện tốc độ đọc/ghi.</span></div></label>
+        </div>
+      </div>
+      <div class="mod-foot"><button class="btn-run" data-module="performance" disabled><i data-lucide="play"></i><span>Thực Thi Performance Boost</span></button></div>
+    </section>
+
+    <!-- ===== KHÓA USB & BẢO MẬT ===== -->
+    <section class="page" data-page="lockusb">
+      <div class="pg-head">
+        <span class="pg-badge bg-rose"><i data-lucide="shield-check"></i> AN TOÀN HỆ THỐNG</span>
+        <h1>Khóa USB Debug &amp; Developer Options</h1>
+        <p>Tắt chế độ nhà phát triển để bảo mật thiết bị và vượt qua cơ chế kiểm tra an ninh của các App Ngân hàng</p>
+      </div>
+
+      <div class="mod-card">
+        <div class="feat-list">
+          <div class="feat">
+            <i data-lucide="shield-alert" style="color:var(--rose);"></i>
+            <div>
+              <strong>Tại sao nên khóa lại sau khi tối ưu xong?</strong>
+              <span>Các ứng dụng như <strong>VNeID, Techcombank, Vietcombank, BIDV, Cake, MB Bank, ZaloPay</strong> thường quét và chặn thiết bị nếu phát hiện bật "Gỡ lỗi USB" hoặc "Tùy chọn nhà phát triển". Khóa lại sẽ giúp bạn sử dụng điện thoại bình thường 100%.</span>
+            </div>
+          </div>
+          <div class="feat">
+            <i data-lucide="check-circle" style="color:var(--emerald);"></i>
+            <div>
+              <strong>Tự động thực hiện 2 thiết lập bảo mật:</strong>
+              <span>1. Tắt hoàn toàn cổng ADB (USB Debugging)<br>2. Ẩn menu "Tùy chọn nhà phát triển" trong Cài đặt bổ sung</span>
+            </div>
+          </div>
+          <div class="feat">
+            <i data-lucide="info" style="color:var(--cyan);"></i>
+            <div>
+              <strong>Cách mở lại sau này nếu cần:</strong>
+              <span>Vào <em>Cài đặt → Giới thiệu điện thoại → Nhấn liên tục 7 lần vào "Phiên bản OS / HyperOS"</em>. Bạn có thể mở lại bất cứ lúc nào bạn muốn!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mod-foot">
+        <button id="btnRunLockUsbPage" class="btn-run btn-run-danger" disabled>
+          <i data-lucide="lock"></i>
+          <span>Khóa USB Debug &amp; Developer Options Ngay</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== ROM GỐC & KHÓA BOOTLOADER ===== -->
+    <section class="page" data-page="romfastboot">
+      <div class="pg-head">
+        <span class="pg-badge bg-amber"><i data-lucide="layers"></i> FASTBOOT &amp; REFLASH</span>
+        <h1>Về ROM Gốc &amp; Khóa Bootloader</h1>
+        <p>Quy trình đưa máy về ROM Gốc Trung Quốc và khóa lại Bootloader an toàn qua chế độ Fastboot</p>
+      </div>
+
+      <!-- Quick Fastboot Status Bar -->
+      <div class="fb-quick-bar">
+        <div class="fb-qb-left">
+          <span class="fb-qb-indicator" id="fbStatusDot"></span>
+          <div class="fb-qb-info">
+            <span class="fb-qb-title" id="fbStatusText">Chưa phát hiện thiết bị Fastboot</span>
+            <span class="fb-qb-sub" id="fbStatusSub">Cắm cáp USB và bắt đầu từ Bước 1</span>
+          </div>
+        </div>
+        <div class="fb-qb-right">
+          <div class="fb-stat-pill">Mã máy: <strong id="fbCodename">--</strong></div>
+          <div class="fb-stat-pill">Bootloader: <strong id="fbBootloaderStatus">--</strong></div>
+          <button id="btnFbRescan" class="btn-rescan-sm" title="Quét lại kết nối Fastboot"><i data-lucide="refresh-cw"></i> Quét lại</button>
+        </div>
+      </div>
+
+      <!-- 5-Step Guided Wizard Container -->
+      <div class="wizard-timeline">
+
+        <!-- BƯỚC 1 -->
+        <div class="wiz-step" id="wizStep1">
+          <div class="wiz-badge">1</div>
+          <div class="wiz-content">
+            <div class="wiz-header">
+              <div class="wiz-titles">
+                <h3>Bước 1: Kết Nối Điện Thoại &amp; Đưa Vào Chế Độ Fastboot</h3>
+                <span class="wiz-desc">Tự động khởi động thiết bị vào chế độ Fastboot để chuẩn bị thao tác nạp ROM</span>
+              </div>
+            </div>
+            <div class="wiz-body">
+              <p>Hãy đảm bảo điện thoại đang bật nguồn bình thường, đã bật <strong>Gỡ lỗi USB</strong> và cắm cáp kết nối vào máy tính.</p>
+              <div class="wiz-actions">
+                <button id="btnRebootToFb" class="btn-step-act btn-act-primary">
+                  <i data-lucide="zap"></i>
+                  <span>Đưa Vào Chế Độ Fastboot (adb reboot bootloader)</span>
+                </button>
+              </div>
+              <div class="wiz-note">
+                <i data-lucide="info"></i>
+                <span>Sau khi bấm nút, điện thoại sẽ tự tắt màn hình và hiện chữ <strong>FASTBOOT</strong> màu cam. Hãy giữ nguyên dây cáp!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BƯỚC 2 -->
+        <div class="wiz-step" id="wizStep2">
+          <div class="wiz-badge">2</div>
+          <div class="wiz-content">
+            <div class="wiz-header">
+              <div class="wiz-titles">
+                <h3>Bước 2: Quét Thiết Bị Fastboot &amp; Đọc Thông Số Máy</h3>
+                <span class="wiz-desc">Kiểm tra kết nối cáp Fastboot, nhận diện mã máy (Codename) và tình trạng Bootloader</span>
+              </div>
+            </div>
+            <div class="wiz-body">
+              <p>Sau khi máy đã ở màn hình cam Fastboot, bấm nút bên dưới để phần mềm quét và đọc chính xác thông số thiết bị.</p>
+              <div class="wiz-actions">
+                <button id="btnStep2ScanFb" class="btn-step-act btn-act-secondary">
+                  <i data-lucide="search"></i>
+                  <span>Quét Thiết Bị Fastboot (fastboot devices)</span>
+                </button>
+              </div>
+              <div class="wiz-device-box">
+                <div class="wdb-col"><span class="wdb-lbl">MÃ MÁY (CODENAME)</span><span class="wdb-val val-highlight" id="fbBoxCodename">--</span></div>
+                <div class="wdb-col"><span class="wdb-lbl">TRẠNG THÁI BOOTLOADER</span><span class="wdb-val" id="fbBoxBootloader">--</span></div>
+                <div class="wdb-col"><span class="wdb-lbl">CỔNG KẾT NỐI (SERIAL)</span><span class="wdb-val" id="fbBoxSerial">--</span></div>
+                <div class="wdb-col"><span class="wdb-lbl">ANTI-ROLLBACK (ARB)</span><span class="wdb-val" id="fbBoxAnti">--</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BƯỚC 3 -->
+        <div class="wiz-step" id="wizStep3">
+          <div class="wiz-badge">3</div>
+          <div class="wiz-content">
+            <div class="wiz-header">
+              <div class="wiz-titles">
+                <h3>Bước 3: Tải Bản ROM Gốc Chuẩn (.tgz) &amp; MiFlash Tool</h3>
+                <span class="wiz-desc">Tra cứu ROM Fastboot chính hãng Xiaomi và tải công cụ nạp ROM MiFlash Tool</span>
+              </div>
+            </div>
+            <div class="wiz-body">
+              <p>Mở trang tra cứu để tự tìm bản ROM Fastboot đúng với thiết bị của bạn (chọn bản China Fastboot Stable đuôi <code>.tgz</code>):</p>
+              <div class="wiz-actions">
+                <button id="btnOpenMifirm" class="btn-step-act btn-act-accent">
+                  <i data-lucide="external-link"></i>
+                  <span>Tìm ROM trên Mifirm.net</span>
+                </button>
+                <button id="btnOpenXiaomiFw" class="btn-step-act btn-act-accent">
+                  <i data-lucide="external-link"></i>
+                  <span>Tìm trên XM Firmware Updater</span>
+                </button>
+                <button id="btnOpenMiFlashLink" class="btn-step-act btn-act-accent">
+                  <i data-lucide="download"></i>
+                  <span>Tải Phần Mềm MiFlash Tool</span>
+                </button>
+              </div>
+              <div class="wiz-tip-box">
+                <strong>💡 HƯỚNG DẪN GIẢI NÉN ROM:</strong>
+                <ul>
+                  <li>Tải bản ROM có ghi chữ <strong>Fastboot</strong> (đuôi file là <code>.tgz</code>, không tải bản Recovery <code>.zip</code>).</li>
+                  <li>Dùng WinRAR hoặc 7-Zip giải nén <strong>2 lần</strong> (lần 1 ra file <code>.tar</code>, lần 2 ra thư mục chứa thư mục <code>images</code> và file <code>flash_all.bat</code>).</li>
+                  <li>Đặt thư mục ROM ở ổ gốc (ví dụ: <code>D:\ROM\</code>). Đường dẫn tuyệt đối không có dấu tiếng Việt hoặc khoảng trắng.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BƯỚC 4 -->
+        <div class="wiz-step" id="wizStep4">
+          <div class="wiz-badge">4</div>
+          <div class="wiz-content">
+            <div class="wiz-header">
+              <div class="wiz-titles">
+                <h3>Bước 4: Nạp ROM Bằng MiFlash (Quy Tắc Chọn Chế Độ)</h3>
+                <span class="wiz-desc">Mở MiFlash, nhấn Select chọn thư mục ROM vừa giải nén, nhấn Refresh và chọn chế độ nạp ở góc dưới bên phải</span>
+              </div>
+            </div>
+            <div class="wiz-body">
+              <div class="rules-compare-grid">
+                <!-- Thẻ xanh: Về zin China ROM -->
+                <div class="rule-card rule-card-green">
+                  <div class="rc-head">
+                    <span class="rc-tag tag-green">TRƯỜNG HỢP 1 (KHUYÊN DÙNG)</span>
+                    <h4>Muốn Về Zin &amp; Khóa Lại Bootloader</h4>
+                  </div>
+                  <p class="rc-cond">Khi bạn nạp: <strong>ĐÚNG BẢN ROM GỐC TRUNG QUỐC (CHINA ROM)</strong></p>
+                  <div class="rc-choice">
+                    <span>Ở góc dưới MiFlash, tích chọn:</span>
+                    <strong class="tag-opt-green">clean all and lock</strong>
+                  </div>
+                  <p class="rc-result">➔ MiFlash sẽ nạp ROM và tự động khóa Bootloader luôn khi xong. Máy về nguyên bản 100% như lúc xuất xưởng!</p>
+                </div>
+
+                <!-- Thẻ đỏ: Cài ROM Quốc Tế -->
+                <div class="rule-card rule-card-red">
+                  <div class="rc-head">
+                    <span class="rc-tag tag-red">TRƯỜNG HỢP 2 (CẨN THẬN)</span>
+                    <h4>Khi Cài ROM Quốc Tế (Global / Indo / EU...)</h4>
+                  </div>
+                  <p class="rc-cond">⚠️ <strong>QUY TẮC SỐNG CÒN CẤM QUÊN:</strong></p>
+                  <div class="rc-choice">
+                    <span>Ở góc dưới MiFlash, BẮT BUỘC chọn:</span>
+                    <strong class="tag-opt-red">clean all</strong>
+                  </div>
+                  <p class="rc-result">➔ <strong>CẤM CHỌN clean all and lock!</strong> Nếu khóa Bootloader trên ROM Quốc tế thì máy nội địa TQ sẽ bị BRICK 100% (Màn hình 'The system has been destroyed').</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BƯỚC 5 -->
+        <div class="wiz-step" id="wizStep5">
+          <div class="wiz-badge">5</div>
+          <div class="wiz-content">
+            <div class="wiz-header">
+              <div class="wiz-titles">
+                <h3>Bước 5: Khóa Lại Bootloader (Chỉ Dành Cho ROM China)</h3>
+                <span class="wiz-desc">Gửi lệnh khóa Bootloader đưa thiết bị trở về trạng thái nguyên bản xuất xưởng</span>
+              </div>
+            </div>
+            <div class="wiz-body">
+              <p>Nếu bạn đã nạp xong ROM China nhưng ở Bước 4 chọn <code>clean all</code>, giờ muốn chủ động khóa Bootloader lại:</p>
+              
+              <div class="wiz-actions" style="margin-top:10px;">
+                <button id="btnOpenLockModal" class="btn-step-act btn-act-danger" disabled>
+                  <i data-lucide="lock"></i>
+                  <span>Khóa Lại Bootloader (fastboot flashing lock)</span>
+                </button>
+                <button id="btnFbRebootSys" class="btn-step-act btn-act-subtle" disabled>
+                  <i data-lucide="rotate-ccw"></i>
+                  <span>Khởi Động Vào Hệ Thống (fastboot reboot)</span>
+                </button>
+                <button id="btnFbRebootRec" class="btn-step-act btn-act-subtle" disabled>
+                  <i data-lucide="wrench"></i>
+                  <span>Vào Recovery (fastboot reboot recovery)</span>
+                </button>
+              </div>
+
+              <!-- Hướng dẫn thao tác điện thoại -->
+              <div class="phone-screen-guide">
+                <div class="psg-head">
+                  <i data-lucide="smartphone"></i>
+                  <strong>HƯỚNG DẪN NHÌN MÀN HÌNH ĐIỆN THOẠI SAU KHI BẤM NÚT KHÓA:</strong>
+                </div>
+                <div class="psg-steps">
+                  <div class="psg-item"><span class="psg-num">1</span><span>Màn hình điện thoại sẽ hiện menu cảnh báo màu đen: <em>"Lock the bootloader?"</em></span></div>
+                  <div class="psg-item"><span class="psg-num">2</span><span>Nhấn phím <strong>Giảm âm lượng (Volume Down)</strong> để di chuyển vệt sáng chọn dòng: <strong style="color:#fbbf24;">Lock the bootloader</strong></span></div>
+                  <div class="psg-item"><span class="psg-num">3</span><span>Nhấn phím <strong>Nguồn (Power)</strong> để xác nhận khóa.</span></div>
+                  <div class="psg-item"><span class="psg-num">4</span><span>Điện thoại sẽ tự động Format dữ liệu sạch sẽ và khởi động lại với Bootloader đã khóa zin hãng 100%!</span></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== CHẠY TẤT CẢ ===== -->
+    <section class="page" data-page="runall">
+      <div class="pg-head"><span class="pg-badge bg-amber"><i data-lucide="rocket"></i> SVIP ENGINE</span><h1>Chạy Tất Cả Module</h1><p>Thực thi toàn bộ pipeline tối ưu hóa trong một lần chạy</p></div>
+
+      <div class="mod-card">
+        <div class="tgl-list">
+          <div class="tgl-row"><div class="tgl-info"><strong>Việt Hóa Ứng Dụng</strong><span>Kích hoạt Tiếng Việt toàn hệ thống</span></div><label class="sw"><input type="checkbox" id="swViethoa" checked><span class="sw-track"></span></label></div>
+          <div class="tgl-row"><div class="tgl-info"><strong>Tối Ưu FCM &amp; Shizuku</strong><span>Fix thông báo realtime</span></div><label class="sw"><input type="checkbox" id="swFcm" checked><span class="sw-track"></span></label></div>
+          <div class="tgl-row"><div class="tgl-info"><strong>Thay Xiao AI → Gemini</strong><span>Thiết lập trợ lý Google</span></div><label class="sw"><input type="checkbox" id="swGemini" checked><span class="sw-track"></span></label></div>
+          <div class="tgl-row"><div class="tgl-info"><strong>Gỡ Bloatware Nội Địa</strong><span>Xóa ứng dụng rác TQ</span></div><label class="sw"><input type="checkbox" id="swDebloat" checked><span class="sw-track"></span></label></div>
+        </div>
+      </div>
+
+      <div class="mod-card">
+        <div class="tgl-list">
+          <div class="tgl-row"><div class="tgl-info"><strong>Mở kiểm tra FCM Diagnostics</strong><span>Xác nhận trạng thái Connected trên điện thoại</span></div><label class="sw"><input type="checkbox" id="swOpenDiag" checked><span class="sw-track"></span></label></div>
+          <div class="tgl-row"><div class="tgl-info"><strong>Khóa Developer Options &amp; USB Debug</strong><span>Tự động tắt sau khi tối ưu xong (Bảo mật &amp; vào App Ngân hàng/VNeID mượt)</span></div><label class="sw"><input type="checkbox" id="swLockUsb"><span class="sw-track"></span></label></div>
+          <div class="tgl-row"><div class="tgl-info"><strong>Khởi động lại (Reboot)</strong><span>Nạp lại cấu hình sạch sau khi tối ưu</span></div><label class="sw"><input type="checkbox" id="swReboot"><span class="sw-track"></span></label></div>
+        </div>
+      </div>
+
+      <div class="pipeline">
+        <div class="pipe-step active" id="stepNode1"><div class="pipe-ico"><i data-lucide="cable"></i></div><span>Kết Nối</span></div>
+        <div class="pipe-line" id="stepLine1"></div>
+        <div class="pipe-step" id="stepNode2"><div class="pipe-ico"><i data-lucide="languages"></i></div><span>Việt Hóa</span></div>
+        <div class="pipe-line" id="stepLine2"></div>
+        <div class="pipe-step" id="stepNode3"><div class="pipe-ico"><i data-lucide="bell-ring"></i></div><span>FCM</span></div>
+        <div class="pipe-line" id="stepLine3"></div>
+        <div class="pipe-step" id="stepNode4"><div class="pipe-ico"><i data-lucide="sparkles"></i></div><span>Gemini</span></div>
+        <div class="pipe-line" id="stepLine4"></div>
+        <div class="pipe-step" id="stepNode5"><div class="pipe-ico"><i data-lucide="trash-2"></i></div><span>Debloat</span></div>
+        <div class="pipe-line" id="stepLine5"></div>
+        <div class="pipe-step" id="stepNode6"><div class="pipe-ico"><i data-lucide="check"></i></div><span>Xong</span></div>
+      </div>
+
+      <button id="btnExecute" class="btn-execute" disabled>
+        <span class="btn-shine"></span>
+        <i data-lucide="sparkles" class="btn-sparkle"></i>
+        <span id="btnExecuteText">BẮT ĐẦU TỐI ƯU HÓA [SVIP ENGINE]</span>
+      </button>
+
+      <div class="prog-box">
+        <div class="prog-info"><span id="progressStatusText">Hệ thống sẵn sàng</span><span id="progressPercentage">0%</span></div>
+        <div class="prog-track"><div id="progressBarFill" class="prog-fill" style="width:0%"></div></div>
+      </div>
+    </section>
+
+    <!-- ===== TERMINAL ===== -->
+    <div class="term-panel" id="termPanel">
+      <div class="term-bar" id="termToggle">
+        <div class="term-dots"><span class="td r"></span><span class="td y"></span><span class="td g"></span></div>
+        <div class="term-cap"><i data-lucide="terminal"></i><span>SYSTEM CONSOLE • adb://localhost</span></div>
+        <div class="term-acts">
+          <button id="btnClearLog" class="term-btn"><i data-lucide="eraser"></i> Xóa log</button>
+          <button id="btnMinTerm" class="term-btn"><i data-lucide="chevrons-down" id="termChevron"></i></button>
+        </div>
+      </div>
+      <div class="term-body" id="terminalConsole">
+        <div class="log-entry log-info"><span class="log-ts">[SYSTEM]</span> HyperOS VN SVip Engine khởi động thành công. Sẵn sàng qua USB.</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===== DISCLAIMER MODAL ===== -->
+<div id="disclaimerModal" class="modal-overlay" style="display:none;">
+  <div class="modal-card modal-wide">
+    <div class="modal-top">
+      <div class="modal-heading">
+        <div class="modal-badge"><i data-lucide="shield-alert"></i> MIỄN TRỪ TRÁCH NHIỆM</div>
+        <h3>Điều Khoản Sử Dụng HyperOS VN SVip</h3>
+      </div>
+      <button class="btn-x" id="btnCloseDisclaimer"><i data-lucide="x"></i></button>
+    </div>
+    <div class="disc-body">
+      <p><strong>1. Mục đích sử dụng:</strong> HyperOS VN SVip là công cụ tối ưu hóa dành cho thiết bị Xiaomi sử dụng ROM Trung Quốc. Công cụ thực hiện các thao tác thông qua ADB (Android Debug Bridge) — giao thức chính thức của Google.</p>
+      <p><strong>2. Rủi ro:</strong> Mặc dù các thao tác đã được kiểm nghiệm trên nhiều thiết bị, việc sửa đổi cấu hình hệ thống luôn tiềm ẩn rủi ro. Người dùng hoàn toàn chịu trách nhiệm về mọi thay đổi trên thiết bị của mình.</p>
+      <p><strong>3. Không bảo hành:</strong> Công cụ được cung cấp "nguyên trạng" (as-is), không kèm bất kỳ bảo hành nào. Nhà phát triển không chịu trách nhiệm về mất dữ liệu, hỏng phần mềm, hoặc bất kỳ thiệt hại nào phát sinh.</p>
+      <p><strong>4. Khuyến nghị:</strong> Sao lưu dữ liệu quan trọng trước khi sử dụng. Đảm bảo pin trên 50% và kết nối cáp USB ổn định trong suốt quá trình.</p>
+      <p><strong>5. Gỡ bỏ ứng dụng:</strong> Các ứng dụng bị gỡ qua ADB có thể được khôi phục bằng Factory Reset.</p>
+    </div>
+    <div class="modal-bot">
+      <button id="btnAcceptDisclaimer" class="btn-accept"><i data-lucide="check"></i><span>Tôi Đã Đọc và Đồng Ý</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DEBLOAT MODAL ===== -->
+<div id="debloatModal" class="modal-overlay" style="display:none;">
+  <div class="modal-card">
+    <div class="modal-top">
+      <div class="modal-heading">
+        <div class="modal-badge bg-rose"><i data-lucide="trash-2"></i> DEBLOAT ENGINE</div>
+        <h3>Tùy Chỉnh Danh Sách Ứng Dụng Rác</h3>
+        <p>Chọn các ứng dụng nội địa muốn gỡ bỏ (mặc định đều an toàn 100%)</p>
+      </div>
+      <button class="btn-x" id="btnCloseModal"><i data-lucide="x"></i></button>
+    </div>
+    <div class="modal-filter">
+      <div class="search-box"><i data-lucide="search"></i><input type="text" id="modalSearchInput" placeholder="Tìm theo tên hoặc package..."></div>
+      <div class="filter-btns"><button id="btnSelectSafe" class="btn-chip">Chọn an toàn</button><button id="btnDeselectAll" class="btn-chip">Bỏ chọn hết</button></div>
+    </div>
+    <div class="modal-list" id="modalAppList"></div>
+    <div class="modal-bot">
+      <span id="modalCounterText" class="modal-count">Đã chọn: 0 / 0</span>
+      <button id="btnSaveModal" class="btn-save">Lưu Lựa Chọn &amp; Đóng</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FASTBOOT LOCK CONFIRM MODAL ===== -->
+<div id="fastbootLockModal" class="modal-overlay" style="display:none;">
+  <div class="modal-card">
+    <div class="modal-top">
+      <div class="modal-heading">
+        <div class="modal-badge bg-rose"><i data-lucide="alert-triangle"></i> XÁC NHẬN NGUY HIỂM</div>
+        <h3>Khóa Bootloader Xiaomi Fastboot</h3>
+      </div>
+      <button class="btn-x" id="btnCloseLockModal"><i data-lucide="x"></i></button>
+    </div>
+    <div class="disc-body">
+      <p style="color:#f87171;font-weight:700;">CHÚ Ý: Lệnh này sẽ gửi tín hiệu khóa Bootloader trực tiếp tới vi điều khiển của máy.</p>
+      <p>Sau khi nhấn Khóa, điện thoại sẽ hiển thị màn hình cảnh báo. Bạn cần dùng phím Âm lượng để chọn <strong>"Lock the bootloader"</strong> và bấm phím Nguồn để xác nhận.</p>
+      <p style="background:rgba(239,68,68,0.15);padding:10px;border-radius:8px;border:1px solid rgba(239,68,68,0.3);font-size:12px;">
+        ⚠️ Máy sẽ xóa sạch toàn bộ dữ liệu (Factory Reset). Hãy chắc chắn máy của bạn đang chạy đúng <strong>ROM GỐC TRUNG QUỐC (CHINA ROM)</strong>!
+      </p>
+      <label style="display:flex;align-items:center;gap:8px;margin-top:14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-1);">
+        <input type="checkbox" id="chkConfirmChinaRom" style="width:18px;height:18px;accent-color:var(--rose);">
+        <span>Tôi cam đoan máy đã nạp đúng ROM Gốc Trung Quốc!</span>
+      </label>
+    </div>
+    <div class="modal-bot">
+      <button id="btnConfirmFastbootLock" class="btn-save" style="background:linear-gradient(135deg,#e11d48,#9f1239);color:#fff;" disabled>
+        <i data-lucide="lock"></i> TIẾN HÀNH KHÓA BOOTLOADER
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="/static/app.js?v=5"></script>
+</body>
+</html>
