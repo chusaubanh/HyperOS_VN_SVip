@@ -13,7 +13,7 @@
 
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-  <link rel="stylesheet" href="/static/style.css?v=5">
+  <link rel="stylesheet" href="/static/style.css?v=6">
 </head>
 <body>
 
@@ -44,6 +44,7 @@
     </nav>
 
     <div class="sb-footer">
+      <button class="sb-item sb-donate" id="btnDonate"><i data-lucide="coffee"></i><span>Ủng hộ 1 ly cafe</span></button>
       <button class="sb-item sb-disc" id="btnDisclaimer"><i data-lucide="shield-alert"></i><span>Miễn trừ trách nhiệm</span></button>
       <div class="sb-conn" id="sbConn">
         <span class="sb-dot"></span>
@@ -117,6 +118,21 @@
         <button id="btnLockUsbBanner" class="btn-lock-action" disabled>
           <i data-lucide="lock"></i>
           <span>Khóa USB Debug Ngay</span>
+        </button>
+      </div>
+
+      <!-- Coffee / Donate Card in Dashboard -->
+      <div class="donate-banner-card">
+        <div class="dbc-left">
+          <div class="dbc-icon"><i data-lucide="coffee"></i></div>
+          <div class="dbc-info">
+            <h3>Ủng Hộ 1 Ly Cafe Cho Tác Giả</h3>
+            <p>Nếu công cụ giúp thiết bị của bạn mượt mà và fix thông báo ngon lành, bạn có thể ủng hộ 1 ly cafe cho mình nhé!</p>
+          </div>
+        </div>
+        <button id="btnOpenDonateBanner" class="btn-donate-action">
+          <i data-lucide="heart"></i>
+          <span>Ủng Hộ 1 Ly Cafe</span>
         </button>
       </div>
     </section>
@@ -582,6 +598,49 @@
   </div>
 </div>
 
-<script src="/static/app.js?v=5"></script>
+<!-- ===== DONATE MODAL ===== -->
+<div id="donateModal" class="modal-overlay" style="display:none;">
+  <div class="modal-card modal-donate">
+    <div class="modal-top">
+      <div class="modal-heading">
+        <div class="modal-badge bg-amber"><i data-lucide="coffee"></i> BUY ME A COFFEE</div>
+        <h3>Ủng Hộ 1 Ly Cafe Cho Mình Nhé</h3>
+        <p>Cảm ơn bạn đã tin tưởng và sử dụng HyperOS VN SVip</p>
+      </div>
+      <button class="btn-x" id="btnCloseDonate"><i data-lucide="x"></i></button>
+    </div>
+    <div class="donate-modal-body">
+      <div class="donate-qr-wrapper">
+        <img src="/static/donate_qr_clean.jpg" alt="Techcombank VietQR - DO THE ANH PHUONG" class="donate-qr-img">
+      </div>
+      <div class="donate-info-box">
+        <div class="dib-row">
+          <span class="dib-lbl">NGÂN HÀNG</span>
+          <strong class="dib-val">Techcombank (TCB)</strong>
+        </div>
+        <div class="dib-row">
+          <span class="dib-lbl">CHỦ TÀI KHOẢN</span>
+          <strong class="dib-val dib-highlight">DO THE ANH PHUONG</strong>
+        </div>
+        <div class="dib-row">
+          <span class="dib-lbl">SỐ TÀI KHOẢN</span>
+          <div class="dib-stk-row">
+            <code class="dib-stk" id="donateStkText">1903 7923 5280 26</code>
+            <button id="btnCopyStk" class="btn-copy-stk" title="Sao chép số tài khoản"><i data-lucide="copy"></i> <span id="copyStkLabel">Sao chép</span></button>
+          </div>
+        </div>
+        <div class="dib-row">
+          <span class="dib-lbl">NỘI DUNG CHUYỂN</span>
+          <span class="dib-memo">Ung ho 1 ly cafe HyperOS</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-bot" style="justify-content:center;">
+      <span class="donate-bot-msg">☕ Chúc bạn có trải nghiệm mượt mà cùng chiếc điện thoại của mình!</span>
+    </div>
+  </div>
+</div>
+
+<script src="/static/app.js?v=6"></script>
 </body>
 </html>

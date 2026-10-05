@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Setup
   setupNavigation();
   setupEventListeners();
+  setupDonateAndModals();
 
   // Show disclaimer on first visit
   if (!localStorage.getItem('svip-disclaimer-accepted')) {
@@ -933,6 +934,80 @@ function setupFastbootListeners() {
       } finally {
         setTimeout(pollFastbootStatus, 3000);
       }
+    });
+  }
+}
+
+// ==========================================================================
+// DONATE & MODAL HANDLERS
+// ==========================================================================
+function setupDonateAndModals() {
+  const donateModal = document.getElementById("donateModal");
+  const btnDonate = document.getElementById("btnDonate");
+  const btnOpenDonateBanner = document.getElementById("btnOpenDonateBanner");
+  const btnCloseDonate = document.getElementById("btnCloseDonate");
+  const btnCopyStk = document.getElementById("btnCopyStk");
+  const copyStkLabel = document.getElementById("copyStkLabel");
+
+  const openDonate = () => {
+    if (donateModal) donateModal.style.display = "flex";
+    if (window.confetti) {
+      try {
+        confetti({ particleCount: 40, spread: 70, origin: { y: 0.6 } });
+      } catch (e) {}
+    }
+  };
+
+  const closeDonate = () => {
+    if (donateModal) donateModal.style.display = "none";
+  };
+
+  if (btnDonate) btnDonate.addEventListener("click", openDonate);
+  if (btnOpenDonateBanner) btnOpenDonateBanner.addEventListener("click", openDonate);
+  if (btnCloseDonate) btnCloseDonate.addEventListener("click", closeDonate);
+
+  if (donateModal) {
+    donateModal.addEventListener("click", (e) => {
+      if (e.target === donateModal) closeDonate();
+    });
+  }
+
+  // Copy STK
+  if (btnCopyStk) {
+    btnCopyStk.addEventListener("click", () => {
+      const stk = "19037923528026";
+      navigator.clipboard.writeText(stk).then(() => {
+        if (copyStkLabel) copyStkLabel.textContent = "Đã chép!";
+        appendLog("✓ Đã sao chép STK Techcombank: 19037923528026 (DO THE ANH PHUONG)", "success");
+        setTimeout(() => {
+          if (copyStkLabel) copyStkLabel.textContent = "Sao chép";
+        }, 2500);
+      }).catch(() => {
+        prompt("Số tài khoản Techcombank (DO THE ANH PHUONG):", stk);
+      });
+    });
+  }
+
+  // Disclaimer Modal
+  const discModal = document.getElementById("disclaimerModal");
+  const btnDisc = document.getElementById("btnDisclaimer");
+  const btnCloseDisc = document.getElementById("btnCloseDisclaimer");
+  const btnAcceptDisc = document.getElementById("btnAcceptDisclaimer");
+
+  if (btnDisc && discModal) {
+    btnDisc.addEventListener("click", () => {
+      discModal.style.display = "flex";
+    });
+  }
+  if (btnCloseDisc && discModal) {
+    btnCloseDisc.addEventListener("click", () => {
+      discModal.style.display = "none";
+    });
+  }
+  if (btnAcceptDisc && discModal) {
+    btnAcceptDisc.addEventListener("click", () => {
+      localStorage.setItem('svip-disclaimer-accepted', 'true');
+      discModal.style.display = "none";
     });
   }
 }

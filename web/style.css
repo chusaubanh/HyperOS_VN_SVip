@@ -866,4 +866,87 @@ body { background:var(--bg-void); color:var(--text-1); font-family:var(--sans); 
   border: 1px solid rgba(255,255,255,.1);
 }
 
+/* ===== DONATE & COFFEE STYLING ===== */
+.sb-donate {
+  font-size: 12px !important; font-weight: 700 !important; color: #f59e0b !important;
+  background: rgba(245,158,11,.08) !important; border: 1px solid rgba(245,158,11,.22) !important;
+  border-radius: 9px; transition: all .2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.sb-donate:hover {
+  background: rgba(245,158,11,.18) !important; border-color: rgba(245,158,11,.45) !important;
+  color: #fbbf24 !important; transform: translateY(-1px);
+}
+.sb-donate i { color: #f59e0b; }
+
+.donate-banner-card {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 22px; border-radius: 14px;
+  background: linear-gradient(135deg, rgba(245,158,11,.08), rgba(180,83,9,.04));
+  border: 1px solid rgba(245,158,11,.24);
+  margin-top: 20px; flex-wrap: wrap; gap: 14px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0,0,0,.2);
+}
+.dbc-left { display: flex; align-items: center; gap: 14px; }
+.dbc-icon {
+  width: 44px; height: 44px; border-radius: 11px;
+  background: rgba(245,158,11,.15); border: 1.5px solid rgba(245,158,11,.35);
+  display: flex; align-items: center; justify-content: center; color: #f59e0b; flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(245,158,11,.2);
+}
+.dbc-icon i { width: 22px; height: 22px; }
+.dbc-info h3 { font-size: 14px; font-weight: 700; color: var(--text-1); margin: 0 0 3px; }
+.dbc-info p { font-size: 12px; color: var(--text-3); margin: 0; }
+.btn-donate-action {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 18px; border-radius: 9px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #000; font-size: 12px; font-weight: 800; border: none; cursor: pointer;
+  transition: all .2s cubic-bezier(0.16, 1, 0.3, 1); font-family: var(--sans);
+  box-shadow: 0 4px 14px rgba(245,158,11,.3);
+}
+.btn-donate-action:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(245,158,11,.45); }
+.btn-donate-action:active { transform: translateY(1px) scale(0.98); }
+.btn-donate-action i { width: 14px; height: 14px; }
+
+/* Donate Modal */
+.modal-donate { max-width: 420px; }
+.donate-modal-body { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 10px; }
+.donate-qr-wrapper {
+  background: #ffffff; padding: 10px; border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.1);
+  display: flex; justify-content: center; width: fit-content;
+}
+.donate-qr-img {
+  width: 210px; height: auto; border-radius: 8px; display: block;
+}
+.donate-info-box {
+  width: 100%; border-radius: 10px; background: rgba(0,0,0,.35);
+  border: 1px solid var(--border-subtle); padding: 12px 16px;
+  display: flex; flex-direction: column; gap: 8px; text-align: left;
+}
+.dib-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+.dib-lbl { font-family: var(--mono); font-size: 9.5px; color: var(--text-4); letter-spacing: .5px; }
+.dib-val { font-size: 12.5px; color: var(--text-1); font-weight: 600; }
+.dib-highlight { color: #f59e0b; font-weight: 800; font-family: var(--mono); letter-spacing: .3px; }
+.dib-stk-row { display: flex; align-items: center; gap: 8px; }
+.dib-stk {
+  font-family: var(--mono); font-size: 13px; font-weight: 700;
+  color: #38bdf8; background: rgba(14,165,233,.12);
+  padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(14,165,233,.25);
+}
+.btn-copy-stk {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 9px; border-radius: 6px;
+  background: rgba(255,255,255,.08); border: 1px solid var(--border-subtle);
+  color: var(--text-2); font-size: 11px; font-weight: 600; cursor: pointer;
+  transition: all .2s; font-family: var(--sans);
+}
+.btn-copy-stk:hover { background: rgba(255,255,255,.15); color: #fff; }
+.btn-copy-stk:active { transform: scale(0.96); }
+.btn-copy-stk i { width: 12px; height: 12px; }
+.dib-memo { font-family: var(--mono); font-size: 11.5px; color: var(--text-2); }
+.donate-bot-msg { font-size: 12px; color: var(--text-3); font-style: italic; }
+
+
 

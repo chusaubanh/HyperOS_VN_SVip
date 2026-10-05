@@ -1,69 +1,93 @@
-# ⚡ HyperOS VN SVip - Xiaomi ROM Precision Optimizer
+<div align="center">
 
-Bộ công cụ tối ưu hóa hệ thống, duy trì kết nối **Google FCM (Khắc phục trễ thông báo)**, **Việt Hóa 100% ứng dụng**, **Tối ưu hiệu năng** và **Quản lý Fastboot / Khóa lại Bootloader** an toàn cho các thiết bị Xiaomi / Redmi / POCO chạy ROM nội địa Trung Quốc (MIUI & HyperOS).
+# ⚡ HyperOS VN SVip
+### Bộ Công Cụ Tối Ưu Hóa Xiaomi / Redmi / POCO Toàn Diện Nhất
 
-Được thiết kế theo tiêu chuẩn chống slop (**taste-skill**) với phong cách Linear / Dark Engineering, tự động hóa toàn bộ thao tác một chạm (1-click) qua giao thức ADB & Fastboot chính thức của Google.
+[![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![Python Version](https://img.shields.io/badge/python-3.8+-yellow.svg?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D6.svg?style=for-the-badge&logo=windows&logoColor=white)](https://www.microsoft.com/windows)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](CONTRIBUTING.md)
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Donate-orange.svg?style=for-the-badge&logo=buy-me-a-coffee&logoColor=white)](#-ủng-hộ-tác-giả-buy-me-a-coffee)
 
----
+<p align="center">
+  <b>Khắc phục triệt để trễ thông báo FCM • Việt hóa 100% ứng dụng • Chuyển Xiao AI sang Google Gemini • Tăng tốc hiệu năng • Quản lý Fastboot & Khóa lại Bootloader an toàn</b>
+</p>
 
-## 🌟 Tính Năng Nổi Bật (SVIP Engine)
+[Tính Năng](#-tính-năng-nổi-bật) • [Cài Đặt & Chạy](#-hướng-dẫn-khởi-chạy) • [Chuẩn Bị Điện Thoại](#-chuẩn-bị-trên-điện-thoại-xiaomi) • [Ủng Hộ Tác Giả](#-ủng-hộ-tác-giả-buy-me-a-coffee) • [Đóng Góp](#-đóng-góp)
 
-1. **Duy Trì Kết Nối Google FCM Thời Gian Thực (Chống dồn / chậm thông báo):**
-   * Đưa `Google Play Services` vào danh sách trắng Doze (Chống ngủ đông hệ thống).
-   * Tắt cơ chế ngắt socket TCP `Millet` của Xiaomi HyperOS.
-   * Tự động kích hoạt **Shizuku Server** bằng cách nạp trực tiếp binary `shizuku_starter` qua ADB.
-   * Tích hợp công cụ chuyên dụng **HyperOS FCM Fix**.
-
-2. **Việt Hóa Toàn Diện Ứng Dụng (MoreLocale 2 & Locale vi-VN):**
-   * Tự động cài đặt MoreLocale 2 và cấp đặc quyền hệ thống `CHANGE_CONFIGURATION`.
-   * Thiết lập vùng hệ thống sang `vi-VN` để **100% ứng dụng tải từ CH Play (Zalo, Facebook, TikTok, Ngân hàng, Maps, Chrome...)** tự động hiển thị Tiếng Việt.
-
-3. **Chuyển Đổi AI Hệ Thống - Google Gemini (Thay Thế Xiao AI):**
-   * Vô hiệu hóa triệt để trợ lý ảo tiếng Trung **Xiao AI** (`com.miui.voiceassist`, `com.miui.voicetrigger`, `com.xiaomi.mibrain.speech`).
-   * Gán dịch vụ **Google Voice Interaction** làm Trợ lý số mặc định (Digital Assistant).
-   * Gán phím **Nguồn (giữ 0.5s)** hoặc cử chỉ vuốt góc để mở nhanh Gemini / Google Assistant (phím Nguồn + Tăng âm lượng giữ chức năng Power Menu).
-   * Cấp quyền Doze Whitelist & AppOps chạy nền không giới hạn giúp Gemini phản hồi tức thì.
-
-4. **Tối Ưu Hiệu Năng Hệ Thống (Performance Boost):**
-   * Tắt RAM Extension (RAM ảo) để ngừng swap bộ nhớ, giảm giật lag khi đa nhiệm.
-   * Vô hiệu hóa Joyose nhằm loại bỏ giới hạn throttle hiệu năng và chặn tự dìm tối màn hình ngoài trời nắng.
-   * Biên dịch ART AOT (`cmd package compile -m speed-profile -a`) tối ưu hóa bytecode cho toàn bộ ứng dụng mở tức thì.
-   * Thực thi `fstrim` dọn dẹp phân mảnh chip nhớ UFS/eMMC.
-
-5. **Gỡ Bỏ Bloatware Nội Địa Trung Quốc (Debloat Engine):**
-   * Gỡ sạch các ứng dụng rác, trang vàng danh bạ, nhạc/video TQ, bàn phím Sogou, Baidu...
-   * Cửa sổ tùy chỉnh tìm kiếm và lọc danh sách ứng dụng an toàn 100%.
-
-6. **Khóa USB Debug & Developer Options (Bảo Mật Ngân Hàng / VNeID):**
-   * Tự động tắt ADB và ẩn menu Cài đặt nhà phát triển sau khi tối ưu xong.
-   * Giúp thiết bị vượt qua cơ chế kiểm tra bảo mật của các ứng dụng ngân hàng (VNeID, Techcombank, Vietcombank, Cake, MB Bank, ZaloPay...).
-
-7. **Về ROM Gốc & Khóa Bootloader (Fastboot Engine):**
-   * Tự động chuyển thiết bị vào chế độ Fastboot chỉ với 1 cú click.
-   * Quét và đọc chính xác thông số phần cứng: Cổng Serial, Mã máy (Codename), tình trạng Bootloader (`UNLOCKED` / `LOCKED`), Anti-Rollback (ARB).
-   * Tích hợp liên kết tra cứu ROM chính hãng trên Mifirm.net, XM Firmware Updater và MiFlash Tool.
-   * Hướng dẫn trực quan quy tắc chọn chế độ flash (`clean all and lock` vs `clean all`) để tránh brick máy.
-   * Lệnh 1-click gửi tín hiệu khóa lại Bootloader (`fastboot flashing lock`) kèm hướng dẫn phím cứng trên màn hình.
-
-8. **Chạy Tất Cả (Pipeline Automation):**
-   * Thực thi toàn bộ quy trình tối ưu hóa liên hoàn chỉ bằng một nút bấm.
+</div>
 
 ---
 
-## 🚀 Hướng Dẫn Sử Dụng
+## 📖 Giới Thiệu
 
-### Yêu Cầu Trên Máy Tính
-* Hệ điều hành Windows 10 / 11.
-* Python 3.8+ (khuyên dùng Python 3.10 trở lên).
+**HyperOS VN SVip** là giải pháp all-in-one được xây dựng nhằm giải quyết các phiền toái phổ biến nhất của người dùng Xiaomi khi mua máy xách tay nội địa Trung Quốc. Công cụ hoạt động qua giao thức chuẩn **ADB & Fastboot** chính thức của Google, **không yêu cầu root**, hoàn toàn tự động hóa 1-click mà không cần gõ lệnh thủ công.
 
-### Khởi Chạy Nhanh
-Chỉ cần **click đúp vào 1 trong 2 file** trong thư mục:
-* 👉 **`Mo_Ung_Dung.vbs`** *(Khuyên dùng)*: Mở giao diện ngay lập tức dưới dạng cửa sổ ứng dụng độc lập (Native Window), không nhấp nháy màn hình đen.
-* 👉 **`run.bat`**: Khởi chạy nhanh qua script lệnh.
+Giao diện ứng dụng được thiết kế theo tiêu chuẩn chống slop (**taste-skill**) mang phong cách Dark Engineering cao cấp (Linear / Apple Obsidian Bento Grid), mượt mà và trực quan.
 
-Hoặc khởi chạy thủ công bằng dòng lệnh:
+---
+
+## 🌟 Tính Năng Nổi Bật
+
+### 1. 🔔 Duy Trì Kết Nối Google FCM Thời Gian Thực (Fix Trễ Thông Báo)
+* Tự động đưa `Google Play Services` vào danh sách trắng Doze (Chống ngủ đông hệ thống).
+* Vô hiệu hóa cơ chế ngắt socket TCP `Millet` của Xiaomi HyperOS.
+* Tự động nạp trực tiếp binary `shizuku_starter` qua ADB và tích hợp tiện ích **HyperOS FCM Fix**.
+* Cung cấp phím tắt mở trực tiếp trình chẩn đoán **Google FCM Diagnostics (`*#*#426#*#*`)** trên màn hình điện thoại.
+
+### 2. 🌐 Việt Hóa 100% Ứng Dụng (MoreLocale 2 & Locale vi-VN)
+* Cài đặt tự động MoreLocale 2 và gán đặc quyền hệ thống `android.permission.CHANGE_CONFIGURATION`.
+* Cấu hình vùng hệ thống sang `vi-VN`: Toàn bộ ứng dụng cài từ Google Play Store (Zalo, Facebook, TikTok, Ngân hàng, Google Maps, Chrome...) tự động nhận diện giao diện Tiếng Việt hoàn toàn.
+
+### 3. ✨ Thay Thế Xiao AI Bằng Google Gemini
+* Vô hiệu hóa triệt để trợ lý ảo nội địa Trung Quốc **Xiao AI** (`com.miui.voiceassist`, `com.miui.voicetrigger`, `com.xiaomi.mibrain.speech`).
+* Gán **Google Voice Interaction** làm Trợ lý số mặc định (Digital Assistant).
+* Gán phím **Nguồn (giữ 0.5s)** hoặc cử chỉ vuốt góc để đánh thức nhanh Google Gemini (phím Nguồn + Tăng âm lượng giữ chức năng Power Menu tắt/mở máy).
+* Mở khóa quyền chạy nền tối đa cho Gemini phản hồi tức thì.
+
+### 4. ⚡ Tối Ưu Hiệu Năng & Pin (Performance Boost)
+* **Tắt RAM ảo (RAM Extension):** Giảm hao mòn chip nhớ UFS và chấm dứt hiện tượng reload giật lag khi đa nhiệm.
+* **Vô hiệu hóa Joyose:** Loại bỏ giới hạn bóp hiệu năng và chặn Xiaomi tự dìm tối màn hình ngoài trời nắng gắt.
+* **Biên dịch mã máy Android Runtime (ART AOT):** Tối ưu hóa trước bytecode giúp mọi ứng dụng khởi động tức thì.
+* **Thực thi FSTRIM:** Tự động dọn rác và sắp xếp lại khối chip nhớ phần cứng.
+
+### 5. 🗑️ Gỡ Bỏ Bloatware Nội Địa Trung Quốc (Debloat Engine)
+* Dọn dẹp sạch các ứng dụng rác, trang vàng TQ, kho nhạc/video TQ, bàn phím Sogou, Baidu...
+* Bộ lọc trực quan cho phép tùy chọn danh sách an toàn 100%.
+
+### 6. 🔒 Khóa USB Debug & Developer Options (Bảo Mật Ngân Hàng / VNeID)
+* Tự động tắt ADB và ẩn menu Cài đặt nhà phát triển sau khi tối ưu xong.
+* Giúp điện thoại vượt qua cơ chế kiểm tra an ninh của các App Ngân hàng (Techcombank, Vietcombank, MB Bank, Cake, VNeID, ZaloPay...).
+
+### 7. 🛠️ Về ROM Gốc & Khóa Lại Bootloader (Fastboot Engine)
+* **Lộ trình 5 bước tự động hóa:** Chuyển máy vào Fastboot, quét thông số phần cứng, mã máy (Codename), tình trạng Bootloader (`UNLOCKED` / `LOCKED`) và Anti-Rollback (ARB) bằng 1-click.
+* Tích hợp link tra cứu ROM chính hãng trên **Mifirm.net**, **XM Firmware Updater** và **MiFlash Tool**.
+* Hướng dẫn trực quan quy tắc chọn chế độ flash (`clean all and lock` vs `clean all`) để tránh rủi ro brick máy.
+* Lệnh 1-click gửi tín hiệu khóa lại Bootloader (`fastboot flashing lock`) kèm hướng dẫn phím cứng chi tiết.
+
+---
+
+## 🚀 Hướng Dẫn Khởi Chạy
+
+### Yêu Cầu Hệ Thống
+* Hệ điều hành Windows 10 hoặc Windows 11.
+* Python 3.8 trở lên (Khuyên dùng Python 3.10+).
+
+### Cách 1: Khởi Chạy Nhanh (1-Click)
+Sau khi tải mã nguồn về máy, bạn chỉ cần **click đúp vào 1 trong 2 file**:
+* 👉 **`Mo_Ung_Dung.vbs`** *(Khuyên dùng)*: Mở giao diện ngay lập tức dưới dạng Cửa sổ ứng dụng Native riêng biệt (không thanh URL, không tab, không nháy màn hình đen CMD).
+* 👉 **`run.bat`**: Khởi chạy nhanh qua kịch bản Batch.
+
+### Cách 2: Khởi Chạy Bằng Dòng Lệnh
 ```bash
+# 1. Clone repository
+git clone https://github.com/chusaubanh/HyperOS_VN_SVip.git
+cd HyperOS_VN_SVip
+
+# 2. Cài đặt thư viện phụ thuộc
 pip install -r requirements.txt
+
+# 3. Khởi chạy máy chủ
 python main.py
 ```
 
@@ -71,17 +95,44 @@ python main.py
 
 ## 📱 Chuẩn Bị Trên Điện Thoại Xiaomi
 
-1. Mở **Cài đặt** > **Giới thiệu điện thoại** > Nhấn liên tục 7 lần vào dòng **Phiên bản OS / HyperOS** để kích hoạt chế độ nhà phát triển.
-2. Vào **Cài đặt bổ sung** > **Tùy chọn nhà phát triển** > Bật 3 mục:
+1. Mở **Cài đặt (Settings)** > **Giới thiệu điện thoại (About phone)** > Nhấn liên tục 7 lần vào dòng **Phiên bản OS / HyperOS** cho đến khi có thông báo *"Bạn đã là nhà phát triển"*.
+2. Vào **Cài đặt bổ sung (Additional settings)** > **Tùy chọn nhà phát triển (Developer options)** > Bật 3 mục:
    * ✅ **Gỡ lỗi USB (USB debugging)**
    * ✅ **Cài đặt qua USB (Install via USB)**
-   * ✅ **Gỡ lỗi USB - Cài đặt bảo mật (USB debugging - Security settings)** *(Bắt buộc để phân quyền)*
-3. Cắm cáp USB nối điện thoại với máy tính, trên màn hình điện thoại chọn **"Luôn cho phép từ máy tính này"** và nhấn **OK**.
+   * ✅ **Gỡ lỗi USB - Cài đặt bảo mật (USB debugging - Security settings)**
+3. Cắm cáp USB nối điện thoại với máy tính. Trên màn hình điện thoại sẽ hiện hộp thoại xác nhận RSA: tích chọn **"Luôn cho phép từ máy tính này"** và nhấn **OK**.
 
 ---
 
-## ⚖️ Miễn Trừ Trách Nhiệm (Disclaimer)
+## ☕ Ủng Hộ Tác Giả (Buy Me A Coffee)
 
-* HyperOS VN SVip là công cụ tối ưu hóa thực hiện thông qua giao thức ADB và Fastboot chính thức của Android / Google.
-* Hãy sao lưu dữ liệu quan trọng trước khi can thiệp sâu vào hệ thống hoặc nạp ROM / khóa Bootloader.
-* Người dùng chịu trách nhiệm với các thao tác lựa chọn trên thiết bị của mình.
+Nếu công cụ **HyperOS VN SVip** giúp ích cho bạn, giúp bạn tiết kiệm thời gian hoặc cứu chiếc điện thoại của bạn hoạt động ưng ý, bạn có thể **ủng hộ 1 ly cafe cho mình nhé!** 
+
+Sự ủng hộ của bạn là động lực rất lớn để mình tiếp tục duy trì và cập nhật các bản tối ưu mới nhất cho cộng đồng Xiaomi Việt Nam!
+
+<div align="center">
+
+<img src="assets/donate_qr_clean.jpg" alt="Mã QR Chuyển Khoản Techcombank - DO THE ANH PHUONG" width="300" style="border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+
+<br/>
+
+| Thông Tin Chuyển Khoản | Chi Tiết |
+| :--- | :--- |
+| **Ngân hàng** | **Techcombank (TCB)** |
+| **Chủ tài khoản** | **DO THE ANH PHUONG** |
+| **Số tài khoản** | `1903 7923 5280 26` |
+| **Nội dung** | `Ung ho HyperOS SVip` |
+
+<p><i>☕ Chân thành cảm ơn tấm lòng và sự đồng hành của bạn!</i></p>
+
+</div>
+
+---
+
+## 🤝 Đóng Góp
+
+Mọi đóng góp nhằm cải thiện công cụ đều rất được trân trọng! Vui lòng đọc [CONTRIBUTING.md](CONTRIBUTING.md) để biết cách tham gia phát triển dự án.
+
+## ⚖️ Giấy Phép (License)
+
+Dự án được phân phối dưới giấy phép **MIT License**. Xem file [LICENSE](LICENSE) để biết thêm chi tiết.
