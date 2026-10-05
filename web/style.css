@@ -910,15 +910,15 @@ body { background:var(--bg-void); color:var(--text-1); font-family:var(--sans); 
 .btn-donate-action i { width: 14px; height: 14px; }
 
 /* Donate Modal */
-.modal-donate { max-width: 420px; }
-.donate-modal-body { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 10px; }
+.modal-donate { max-width: 440px; max-height: 94vh; overflow-y: auto; }
+.donate-modal-body { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 6px; }
 .donate-qr-wrapper {
-  background: #ffffff; padding: 10px; border-radius: 14px;
+  background: #ffffff; padding: 12px; border-radius: 14px;
   box-shadow: 0 8px 30px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.1);
   display: flex; justify-content: center; width: fit-content;
 }
 .donate-qr-img {
-  width: 210px; height: auto; border-radius: 8px; display: block;
+  width: 220px; height: auto; border-radius: 6px; display: block;
 }
 .donate-info-box {
   width: 100%; border-radius: 10px; background: rgba(0,0,0,.35);
@@ -945,8 +945,39 @@ body { background:var(--bg-void); color:var(--text-1); font-family:var(--sans); 
 .btn-copy-stk:hover { background: rgba(255,255,255,.15); color: #fff; }
 .btn-copy-stk:active { transform: scale(0.96); }
 .btn-copy-stk i { width: 12px; height: 12px; }
-.dib-memo { font-family: var(--mono); font-size: 11.5px; color: var(--text-2); }
-.donate-bot-msg { font-size: 12px; color: var(--text-3); font-style: italic; }
+
+.donate-note-card {
+  width: 100%; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(245,158,11,.05), rgba(0,0,0,.25));
+  border: 1px solid rgba(245,158,11,.2); padding: 14px 16px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.dnc-text {
+  font-size: 13px; font-weight: 700; color: #f59e0b;
+  margin: 0 0 6px; line-height: 1.4;
+}
+.dnc-subtext {
+  font-size: 11.5px; color: var(--text-3);
+  margin: 0 0 12px; line-height: 1.5;
+}
+.donate-fb-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 8px 18px; border-radius: 8px;
+  background: rgba(59,130,246,.15); border: 1px solid rgba(59,130,246,.35);
+  color: #60a5fa; font-size: 12px; font-weight: 700; text-decoration: none;
+  cursor: pointer; transition: all .2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 10px rgba(59,130,246,.15);
+}
+.donate-fb-btn:hover {
+  background: #2563eb; color: #ffffff;
+  transform: translateY(-1px); box-shadow: 0 4px 16px rgba(37,99,235,.4);
+}
+.donate-fb-btn:active { transform: translateY(1px) scale(0.98); }
+.donate-fb-btn i { width: 14px; height: 14px; }
+.donate-bot-msg {
+  display: block; font-size: 11px; color: var(--text-4);
+  font-style: italic; margin-top: 10px;
+}
 
 
 

@@ -104,15 +104,17 @@ python main.py
 
 ---
 
-## ☕ Ủng Hộ Tác Giả (Buy Me A Coffee)
+## ☕ Ủng Hộ Tác Giả & Góp Ý Phát Triển (Buy Me A Coffee & Contact)
 
-Nếu công cụ **HyperOS VN SVip** giúp ích cho bạn, giúp bạn tiết kiệm thời gian hoặc cứu chiếc điện thoại của bạn hoạt động ưng ý, bạn có thể **ủng hộ 1 ly cafe cho mình nhé!** 
+Nếu bạn thấy công cụ **HyperOS VN SVip** hữu ích, giúp bạn tiết kiệm thời gian hoặc tối ưu chiếc điện thoại của mình ưng ý hơn, bạn có thể **ủng hộ mình một ly cafe nhé ☕!**
 
-Sự ủng hộ của bạn là động lực rất lớn để mình tiếp tục duy trì và cập nhật các bản tối ưu mới nhất cho cộng đồng Xiaomi Việt Nam!
+Nếu bạn có ý tưởng muốn phát triển thêm tính năng gì, cần tối ưu lại điều gì hay gặp bất kỳ lỗi nào trong quá trình sử dụng, cứ thoải mái liên hệ hoặc nhắn tin riêng cho mình qua Facebook:
+
+👉 **Facebook Cá Nhân:** [facebook.com/chu6banh](https://www.facebook.com/chu6banh)
 
 <div align="center">
 
-<img src="assets/donate_qr_clean.jpg" alt="Mã QR Chuyển Khoản Techcombank - DO THE ANH PHUONG" width="300" style="border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+<img src="assets/donate_qr_clean.jpg" alt="Mã QR Chuyển Khoản Techcombank - DO THE ANH PHUONG" width="280" style="border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
 
 <br/>
 
@@ -120,10 +122,9 @@ Sự ủng hộ của bạn là động lực rất lớn để mình tiếp t�
 | :--- | :--- |
 | **Ngân hàng** | **Techcombank (TCB)** |
 | **Chủ tài khoản** | **DO THE ANH PHUONG** |
-| **Số tài khoản** | `1903 7923 5280 26` |
-| **Nội dung** | `Ung ho HyperOS SVip` |
+| **Số tài khoản** | `1903 7923 5280 26` *(Sao chép dễ dàng)* |
 
-<p><i>☕ Chân thành cảm ơn tấm lòng và sự đồng hành của bạn!</i></p>
+<p><i>☕ Cảm ơn bạn rất nhiều vì đã luôn đồng hành, ủng hộ và đóng góp ý kiến cho dự án! ❤️</i></p>
 
 </div>
 

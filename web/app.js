@@ -988,6 +988,21 @@ function setupDonateAndModals() {
     });
   }
 
+  // Open Facebook link
+  const btnOpenDonateFb = document.getElementById("btnOpenDonateFb");
+  if (btnOpenDonateFb) {
+    btnOpenDonateFb.addEventListener("click", (e) => {
+      e.preventDefault();
+      const fbUrl = "https://www.facebook.com/chu6banh";
+      window.open(fbUrl, "_blank");
+      fetch("/api/open_browser", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: fbUrl })
+      }).catch(() => {});
+    });
+  }
+
   // Disclaimer Modal
   const discModal = document.getElementById("disclaimerModal");
   const btnDisc = document.getElementById("btnDisclaimer");

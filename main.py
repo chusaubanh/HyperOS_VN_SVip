@@ -55,6 +55,18 @@ def serve_static(filepath):
     response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     return static_file(filepath, root=WEB_DIR)
 
+@app.route('/api/open_browser', method='POST')
+def api_open_browser():
+    try:
+        data = request.json or {}
+        url = data.get('url', '')
+        if url.startswith('http://') or url.startswith('https://'):
+            webbrowser.open(url)
+            return {"success": True}
+        return {"error": "Invalid URL"}
+    except Exception as e:
+        return {"error": str(e)}
+
 @app.route('/api/devices')
 def api_devices():
     devices = adb.get_devices()
